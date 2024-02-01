@@ -3,51 +3,37 @@
 
 #include <stdio.h>
 
-#define MAX_SIZE 10
-
 int main() {
-    int num1, num2;
-    // printf("Enter the number of rows and columns: ");
-    scanf("%d %d", &num1, &num2);
-
-    int arr[MAX_SIZE][MAX_SIZE];
-
-    // Input array elements
-    // printf("Enter the elements of the array:\n");
-    for (int i = 0; i < num1; i++) {
-        for (int j = 0; j < num2; j++) {
-            scanf("%d", &arr[i][j]);
+    int m, n;
+    scanf("%d %d", &m, &n);
+    int matrix[m][n];
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &matrix[i][j]);
         }
     }
-
-    int top = 0, bottom = num1 - 1, left = 0, right = num2 - 1;
-    int direction = 0; // 0: right, 1: down, 2: left, 3: up
-
-    // printf("Spiral Array Printer:\n");
-    while (top <= bottom && left <= right) {
-        if (direction == 0) { // Move from left to right
-            for (int i = left; i <= right; i++) {
-                printf("%d ", arr[top][i]);
-            }
-            top++;
-        } else if (direction == 1) { // Move from top to bottom
-            for (int i = top; i <= bottom; i++) {
-                printf("%d ", arr[i][right]);
-            }
-            right--;
-        } else if (direction == 2) { // Move from right to left
-            for (int i = right; i >= left; i--) {
-                printf("%d ", arr[bottom][i]);
-            }
-            bottom--;
-        } else if (direction == 3) { // Move from bottom to top
-            for (int i = bottom; i >= top; i--) {
-                printf("%d ", arr[i][left]);
-            }
-            left++;
+    int i, k = 0, l = 0;
+    while (k < m && l < n) {
+        for (i = l; i < n; ++i) {
+            printf("%d ", matrix[k][i]);
         }
-        direction = (direction + 1) % 4;
+        k++;
+        for (i = k; i < m; ++i) {
+            printf("%d ", matrix[i][n-1]);
+        }
+        n--;
+        if (k < m) {
+            for (i = n-1; i >= l; --i) {
+                printf("%d ", matrix[m-1][i]);
+            }
+            m--;
+        }
+        if (l < n) {
+            for (i = m-1; i >= k; --i) {
+                printf("%d ", matrix[i][l]);
+            }
+            l++;
+        }
     }
-
     return 0;
 }
