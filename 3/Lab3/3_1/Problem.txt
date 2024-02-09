@@ -1,0 +1,106 @@
+Write C program is a way to create a stack using an array. Performs operations such as push, pop, and stack values, and displays the messages that appear in each function.
+
+Functions that you must write:
+
+     push()
+
+     This function takes an integer as input and puts it on the stack.
+     If the stack is full, "Stack Overflow." will be displayed and the program will end.
+
+     pop()
+
+     This function pops data at the top of the stack.
+     If the stack is empty, "Stack Underflow." will be displayed and the program will end.
+
+     show()
+
+     This function is used to display the value of the stack.
+     If the stack is empty, "Stack is empty." is displayed and the program ends.
+
+     isFull()
+
+     This function checks whether the stack is full or not.
+     It returns true if top is equal to max_size - 1, indicating the stack is full, otherwise it returns false.
+
+     isEmpty()
+
+     This function checks if the stack is free.
+     It returns true if top equals -1, indicating the stack is empty, otherwise it returns false.
+
+Input
+First line: Input an integer representing the size of the stack, where 1 ≤ size ≤ 100000000. If the input value is less than or equal to 0, "Please enter a positive number." is printed and the program ends.
+Second line:
+Input Integer 1, 2, 3, 4
+1 is Push
+2 is Pop
+3 is Show Stack
+4 is Exit
+If you type 1, you must type it followed by the integer you want to add to the stack.
+If you type 2, the number in the stack will be subtracted by the 1st unit.
+If you type 3 it will display the entire stack and end the program.
+If you type 4, you will exit the program and type "Exiting..."
+If you type anything other than 1 - 4, "Invalid choice." will be printed and the program will end.
+
+Output
+Show stack or various messages
+
+example
+Input
+-100
+Output
+Please enter a positive number.
+
+Input
+1
+1 -900
+2
+3
+Output
+Stack is empty.
+
+Input
+1
+1 8
+1 9
+Output
+Stack Overflow.
+
+Input
+1
+1 -71
+3
+Output
+-71
+
+Input
+5
+1 2
+1 8
+1 9
+1 -9
+1 0
+3
+Output
+0
+-9
+9
+8
+2
+
+Input
+5
+8
+Output
+Invalid choice.
+
+Input
+7
+2
+Output
+Stack Underflow.
+
+Input
+10000
+4
+Output
+Exiting...
