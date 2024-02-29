@@ -1,0 +1,22 @@
+Write a C language program for specifying the Index position in the two numbers of the numbers that combine gray and numbers that users specified.By filling the code that is missing in the program
+Example#1
+Input
+1 2 3 4 5
+3
+Output
+0 1
+Example#2
+1 2 3 4 5 6
+6
+Output
+0 4
+Example#3
+Input
+1 2 3 4 5
+Output
+No Two Numbers Add to the Target
+
+Note:
+1. The program is designed to be adapted to find the position of the numbers more than the body in the future.Therefore there are some variables that may be more than necessary of this workTo maintain that sharpenerAnd fill the code in the garden that is free to work
+2. Enter Comment in the program to answer the question thatThe prototype program has announced the Dynamic variable and managed the variable appropriately or not. Why?
+3. No need to think about the case other than this, such as in the case of many answersChoose to answer the first pair of numbers.

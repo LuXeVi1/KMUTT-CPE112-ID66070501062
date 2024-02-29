@@ -1,0 +1,131 @@
+Fourris Wheel
+Welcome to Bangmod Sports Centre, currently hosting a festival event. Among the attractions is the Fourris Wheel, a Ferris wheel open for all attendees. Your role here is to oversee queue management
+for this attraction.
+
+The owner has provided you with queue regulations, as follows:
+
+The queues are linear.
+Each queue can accommodate between 1 and 4 individuals.
+Queues can merge with adjacent queues, but the total number of individuals in a merged queue cannot exceed 4.
+The speed at which riders can board the Ferris wheel increases as more individuals join a queue.
+Here is an example scenario: Suppose there are 11 queues lined up for the ride, each with a different number of people.
+
+1
+
+At the front of the queue, where there are already 4 individuals, they cannot join the next queue due to the maximum limit of four people.
+
+The subsequent queue containing 3 people, can merge with another adjacent queue (which has one person), but it cannot be merged further as the total number of individuals would exceed four.
+
+2
+
+The following queue, with two people, can merge with the subsequent queue (one person), but it cannot combine with the next one (three people) since 
+3
++
+3
+=
+6
+(
+>
+4
+)
+3+3=6(>4) . Thus, the new queue will be:
+
+3
+
+This process continues until the end of the queue is reached, resulting in the final merged queue as follows:
+
+4
+
+Once the queue is merged into a group of up to four people, the fourth rule (“The speed of boarding increases as more individuals join the queue”) comes into effect. Additionally, within each merged group, the principle of First come, first serve applies.
+
+Consequently, the sequence of people boarding the ride will be:
+
+5
+
+The sequence of boarding the ride can be shown as:
+
+4 -> (3,1) -> (2,2) -> (1,2,1) -> (2,1) -> 3
+
+Your objective is to determine the sequence in which individuals board the ride based on the original queue provided.
+
+Input
+The input consists of two lines:
+
+First Line:
+An integer 
+
+n which 
+1
+≤
+
+≤
+1
+,
+000
+,
+000
+1≤n≤1,000,000 as the number of queues that are in line.
+
+Second Line:
+A sequence of number of people (
+
+
+p 
+i
+​
+ ) lining in each queue. The constants are as shown: 
+1
+≤
+
+≤
+
+1≤i≤n and 
+1
+≤
+
+
+≤
+4
+1≤p 
+i
+​
+ ≤4
+
+Output
+The number of lines of the output corresponds to the number of groups eligible to board the ride. If a group comprises multiple queues, the number of individuals in each queue is separated by ‘whitespace’. The first line represents the first group to board and the output continues until the last line, which denotes the last group to board (See examples of input and output for clarification)
+
+Hint: The maximum number of lines in the output will be 
+𝑛
+n lines
+
+Examples of input and output
+Input	Output
+11
+4 3 1 2 1 3 2 2 1 2 1	4
+3 1
+2 2
+1 2 1
+2 1
+3
+5
+1 1 1 4 3	4
+1 1 1
+3
+1
+1	1
+8
+1 2 3 4 4 3 2 1	4
+4
+1 2
+3
+3
+2 1
+10
+4 4 4 4 1 1 1 4 1 4	4
+4
+4
+4
+4
+4
+1 1 1
+1

@@ -1,0 +1,28 @@
+Palindrome Creator
+You want to create a sequence of beads ([n]: ลูกปัด), where each bead represents a single character. The goal is to craft a symmetrical string of characters.
+
+Lately, you have learned about palindrome, a word, phrase, or sequence that reads the same foreward and backward. Since they are relatively rare to find strings to be palindrome, you are encouraged to create one from a given string.
+
+Consider the following example: For the word ‘quay’ ([n]: ท่าเรือ) is a 4-length string. You can transform it into a palindrome by concatenating ‘auq’ or ‘yauq’. To optimize costs, we concatenate it with a shorter pattern, ‘auq’.
+
+Another instance, a string ‘potot’ is a 5-length string. It can be converted into a palindrome by concatenating ‘otop’ or ‘totop’ OR you can concatenate it with ‘op’ to make a palindrome. By utilizing ‘op’, we can form the shortest palindrome.
+
+The concise approach is to verify if the string pattern is already a palindrome. If the string is already a palindrome, no additional concatenation is necessary. (One character is also considered a palindrome) The objective of this question is to generate the shortest possible palindrome string.
+
+The objective of this question is to generate the shortest possible palindrome string.
+
+Input
+The input comprised a single line, representing the string pattern the user aims to transform into a palindrome. The length of this input string ranged from 1 to 1,000,000 characters.
+
+Output
+The output is a string line, containing the shortest possible palindrome form of the input string.
+
+Examples of input and output
+Input	Output
+quay	quayauq
+potot	pototop
+a	a
+Solos	SolosoloS
+YOUR NAME	YOUR NAMEMAN RUOY
+NOTE: Capital and lowercase letters are treated as distinct characters.
+NOTE: The Testcases will include WHITESPACE Characters

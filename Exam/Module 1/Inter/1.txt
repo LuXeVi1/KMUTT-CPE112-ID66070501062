@@ -1,0 +1,94 @@
+Set
+Problem
+Consider the provided C code that implements a sorted set data structure (ADT). The struct sortedset contains an array of integers (elements) and a variable to store the size of the set (size). The code encompasses functions for initializing the set, detecting duplicates, inserting elements in a sorted manner, and displaying the set's contents.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct sortedset
+{
+    int *elements;
+    int size;
+};
+
+// Function prototypes
+void init(struct sortedset *s, int size);
+int checkDuplicate(struct sortedset *s, int target);
+void insertElement(struct sortedset *s, int newNum);
+void printArray(struct sortedset *s);
+
+int main()
+{
+    // Your code here
+}
+Feel free to use the typedef as needed.
+
+Function Operations
+init(struct sortedset *s,int size)
+Initializes the set with given size.
+
+checkDuplicate(struct sortedset *s,  int target)
+Checks if a given integer is already in the set.
+
+insertElement(struct sortedset *s,  int newNum)
+Inserts a new integer into the set, maintaining the sorted order.
+
+printArray(struct sortedset *s)
+Print both the size of set and the elements of the set in the
+formatted form.
+
+Insertion Example
+enter image description here
+
+Input
+The input consists of two lines:
+
+First Line: An integer n which 
+0
+≤
+
+≤
+1
+,
+000
+0≤n≤1,000 representing the number of elements in the set.
+Second Line: A sequence, 
+
+1
+
+2
+…
+
+
+a 
+1
+​
+ a 
+2
+​
+ …a 
+n
+​
+ , consists of 
+
+n integers separated by whitespace.
+Output
+The output consists of two lines:
+
+First Line: An integer 
+
+m which is the number of elements in the set.
+Second Line: A sequence of the elements in set with a comma and space between elements.
+Example
+Input	Output
+5
+1 2 3 4 5	5
+{1, 2, 3, 4, 5}
+10
+7 9 4 5 6 2 0 3 1 8	10
+{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+10
+9 0 4 4 6 5 6 9 5 9	5
+{0, 4, 5, 6, 9}
+0	0
+{}
