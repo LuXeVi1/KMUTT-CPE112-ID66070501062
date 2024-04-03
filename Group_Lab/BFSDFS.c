@@ -10,14 +10,22 @@ int n, m;
 int *graph[MAX_VERTICES];
 int size[MAX_VERTICES];
 
-int compare(const void * a, const void * b) {
-    return ( *(int*)a - *(int*)b );
-}
-
 void addEdge(int v1, int v2) {
     graph[v1] = realloc(graph[v1], sizeof(int) * (size[v1] + 1));
     graph[v1][size[v1]++] = v2;
-    qsort(graph[v1], size[v1], sizeof(int), compare);
+}
+
+
+void sortIntArray(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
 }
 
 void bfs(int start) {
@@ -32,6 +40,9 @@ void bfs(int start) {
 
         printf("%d ", current);
 
+        // Sort the neighbors before traversing
+        sortIntArray(graph[current], size[current]);
+
         for (int i = 0; i < size[current]; i++) {
             int next = graph[current][i];
             if (!visited[next]) {
@@ -43,6 +54,7 @@ void bfs(int start) {
 
     printf("\n");
 }
+
 
 void dfsUtil(int start) {
     visited[start] = 1;
