@@ -1,99 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
-#define MAX 1000
+#define MAX_VERTICES 1000
 
-typedef struct node {
-    int vertex;
-    struct node* next;
-} node;
+int visited[MAX_VERTICES];
+int n, m;
+int *graph[MAX_VERTICES];
+int size[MAX_VERTICES];
 
-node* createNode(int v);
-void addEdge(node* adjList[], int src, int dest);
-void printGraph(node* adjList[], int vertices);
-void BFS(node* adjList[], int startVertex, int vertices);
-void DFS(node* adjList[], int startVertex, int visited[]);
-
-int main() {
-    int vertices, edges, i, src, dest, startVertex;
-
-    scanf("%d", &vertices);
-    node* adjList[vertices];
-    for (i = 0; i < vertices; i++) {
-        adjList[i] = NULL;
-    }
-
-    scanf("%d", &edges);
-    for (i = 0; i < edges; i++) {
-        scanf("%d %d", &src, &dest);
-        addEdge(adjList, src, dest);
-    }
-
-    scanf("%d", &startVertex);
-    BFS(adjList, startVertex, vertices);
-
-    int visited[vertices];
-    for (i = 0; i < vertices; i++) {
-        visited[i] = 0;
-    }
-    DFS(adjList, startVertex, visited);
-
-    return 0;
+int compare(const void * a, const void * b) {
+    return ( *(int*)a - *(int*)b );
 }
 
-node* createNode(int v) {
-    node* newNode = malloc(sizeof(node));
-    newNode->vertex = v;
-    newNode->next = NULL;
-    return newNode;
+void addEdge(int v1, int v2) {
+    graph[v1] = realloc(graph[v1], sizeof(int) * (size[v1] + 1));
+    graph[v1][size[v1]++] = v2;
+    qsort(graph[v1], size[v1], sizeof(int), compare);
 }
 
-void addEdge(node* adjList[], int src, int dest) {
-    node* newNode = createNode(dest);
-    newNode->next = adjList[src];
-    adjList[src] = newNode;
-}
+void bfs(int start) {
+    int queue[MAX_VERTICES];
+    int front = 0, rear = 0;
 
-void BFS(node* adjList[], int startVertex, int vertices) {
-    int visited[vertices];
-    for (int i = 0; i < vertices; i++) {
-        visited[i] = 0;
-    }
+    queue[rear++] = start;
+    visited[start] = 1;
 
-    int queue[MAX];
-    int front = -1;
-    int rear = -1;
+    while (front < rear) {
+        int current = queue[front++];
 
-    queue[++rear] = startVertex;
-    visited[startVertex] = 1;
+        printf("%d ", current);
 
-    while (front != rear) {
-        int currentVertex = queue[++front];
-        printf("%d ", currentVertex);
-
-        node* temp = adjList[currentVertex];
-        while (temp) {
-            int adjVertex = temp->vertex;
-            if (visited[adjVertex] == 0) {
-                queue[++rear] = adjVertex;
-                visited[adjVertex] = 1;
+        for (int i = 0; i < size[current]; i++) {
+            int next = graph[current][i];
+            if (!visited[next]) {
+                queue[rear++] = next;
+                visited[next] = 1;
             }
-            temp = temp->next;
         }
     }
+
     printf("\n");
 }
 
-void DFS(node* adjList[], int startVertex, int visited[]) {
-    node* temp = adjList[startVertex];
-    visited[startVertex] = 1;
-    printf("%d ", startVertex);
+void dfsUtil(int start) {
+    visited[start] = 1;
+    printf("%d ", start);
 
-    while (temp != NULL) {
-        int connectedVertex = temp->vertex;
-        if (visited[connectedVertex] == 0) {
-            DFS(adjList, connectedVertex, visited);
+    for (int i = 0; i < size[start]; i++) {
+        int next = graph[start][i];
+        if (!visited[next]) {
+            dfsUtil(next);
         }
-        temp = temp->next;
     }
+}
+
+void dfs(int start) {
+    memset(visited, 0, sizeof(visited));
+    dfsUtil(start);
+}
+
+int main() {
+    scanf("%d %d", &n, &m);
+
+    for (int i = 0; i < m; i++) {
+        int v1, v2;
+        scanf("%d %d", &v1, &v2);
+        addEdge(v1, v2);
+        addEdge(v2, v1); // assuming undirected graph
+    }
+
+    int start;
+    scanf("%d", &start);
+
+    bfs(start);
+    dfs(start);
+    
+    return 0;
 }
