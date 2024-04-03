@@ -15,7 +15,6 @@ void addEdge(int v1, int v2) {
     graph[v1][size[v1]++] = v2;
 }
 
-
 void sortIntArray(int arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
@@ -40,7 +39,6 @@ void bfs(int start) {
 
         printf("%d ", current);
 
-        // Sort the neighbors before traversing
         sortIntArray(graph[current], size[current]);
 
         for (int i = 0; i < size[current]; i++) {
@@ -54,7 +52,6 @@ void bfs(int start) {
 
     printf("\n");
 }
-
 
 void dfsUtil(int start) {
     visited[start] = 1;
@@ -71,6 +68,7 @@ void dfsUtil(int start) {
 void dfs(int start) {
     memset(visited, 0, sizeof(visited));
     dfsUtil(start);
+    printf("\n");
 }
 
 int main() {

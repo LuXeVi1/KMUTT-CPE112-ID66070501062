@@ -1,65 +1,53 @@
-/*
-66070501003 Kanyaphat Chaithawip
-66070501036 Ponprathan Kuearung
-66070501062 Arkkhanirut Pandej
-66070501068 Khunnapat Aubontara
-*/
-
 #include <stdio.h>
 #include <limits.h>
 
 #define MAX_NODES 100
 
-void dijkstra(int graph[MAX_NODES][MAX_NODES], int nodes, int source) {
-    int distance[MAX_NODES];
-    int visited[MAX_NODES] = {0};
+void dijkstra(int graph[MAX_NODES][MAX_NODES], int n, int src) {
+    int dist[MAX_NODES]; // To store the shortest distance from src to i
+    int visited[MAX_NODES] = {0}; // Mark nodes as not visited
 
-    for (int i = 0; i < nodes; i++) {
-        distance[i] = INT_MAX;
+    // Initialize all distances as INFINITE and visited[] as false
+    for (int i = 0; i < n; i++)
+        dist[i] = INT_MAX;
+
+    // Distance of source vertex from itself is always 0
+    dist[src] = 0;
+
+    // Find shortest path for all vertices
+    for (int count = 0; count < n - 1; count++) {
+        // Pick the minimum distance vertex from the set of vertices not yet processed
+        int u, min = INT_MAX;
+        for (int v = 0; v < n; v++)
+            if (!visited[v] && dist[v] <= min)
+                min = dist[v], u = v;
+
+        // Mark the picked vertex as processed
+        visited[u] = 1;
+
+        // Update dist[] value of the adjacent vertices of the picked vertex
+        for (int v = 0; v < n; v++)
+            if (!visited[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
+                dist[v] = dist[u] + graph[u][v];
     }
 
-    distance[source] = 0;
-
-    for (int i = 0; i < nodes - 1; i++) {
-        int min_dist = INT_MAX;
-        int min_index;
-
-        for (int j = 0; j < nodes; j++) {
-            if (!visited[j] && distance[j] <= min_dist) {
-                min_dist = distance[j];
-                min_index = j;
-            }
-        }
-
-        visited[min_index] = 1;
-
-        for (int k = 0; k < nodes; k++) {
-            if (!visited[k] && graph[min_index][k] != 0 && distance[min_index] != INT_MAX &&
-                distance[min_index] + graph[min_index][k] < distance[k]) {
-                distance[k] = distance[min_index] + graph[min_index][k];
-            }
-        }
-    }
-
-    for (int i = 0; i < nodes; i++) {
-        if (i != source) {
-            printf("%d %d\n", i, distance[i]);
-        }
-    }
+    // Print the constructed distance array
+    for (int i = 0; i < n; i++)
+        printf("%d ", dist[i]);
 }
 
 int main() {
-    int nodes, source;
-    scanf("%d %d", &nodes, &source);
+    int n, src;
+    scanf("%d %d", &n, &src);
 
     int graph[MAX_NODES][MAX_NODES];
-    for (int i = 0; i < nodes; i++) {
-        for (int j = 0; j < nodes; j++) {
-            scanf("%d", &graph[i][j]);
-        }
-    }
 
-    dijkstra(graph, nodes, source);
+    // Input adjacency matrix
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &graph[i][j]);
+
+    dijkstra(graph, n, src);
 
     return 0;
 }
