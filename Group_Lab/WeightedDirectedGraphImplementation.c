@@ -51,15 +51,19 @@ struct Graph* createGraph(int V) {
 
 void addEdge(struct Graph* graph, int src, int dest, int weight) {
     struct Node* newNode = createNode(dest, weight);
-    newNode->next = graph->adjList[src];
-    graph->adjList[src] = newNode;
+    struct Node** current = &(graph->adjList[src]);
+    while (*current != NULL && ((*current)->dest < dest || ((*current)->dest == dest && (*current)->weight < weight))) {
+        current = &((*current)->next);
+    }
+    newNode->next = *current;
+    *current = newNode;
 }
 
 void printGraph(struct Graph* graph) {
     for (int i = 0; i < graph->V; i++) {
         struct Node* temp = graph->adjList[i];
         while (temp != NULL) {
-            printf("%d —> %d (%d)\n", i, temp->dest, temp->weight);
+            printf("%d -> %d (%d)\n", i, temp->dest, temp->weight);
             temp = temp->next;
         }
     }
