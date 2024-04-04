@@ -1,53 +1,77 @@
+/*
+66070501003 Kanyaphat Chaithawip
+66070501036 Ponprathan Kuearung
+66070501062 Arkkhanirut Pandej
+66070501068 Khunnapat Aubontara
+*/
+
 #include <stdio.h>
-#include <limits.h>
 
 #define MAX_NODES 100
+#define INFINITY 999999
 
-void dijkstra(int graph[MAX_NODES][MAX_NODES], int n, int src) {
-    int dist[MAX_NODES]; // To store the shortest distance from src to i
-    int visited[MAX_NODES] = {0}; // Mark nodes as not visited
+void displayDistances(int distances[], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%d %d\n", i, distances[i]);
+    }
+}
 
-    // Initialize all distances as INFINITE and visited[] as false
-    for (int i = 0; i < n; i++)
-        dist[i] = INT_MAX;
+int minDistance(int distances[], int visited[], int n) {
+    int min = INFINITY, minIndex;
 
-    // Distance of source vertex from itself is always 0
-    dist[src] = 0;
-
-    // Find shortest path for all vertices
-    for (int count = 0; count < n - 1; count++) {
-        // Pick the minimum distance vertex from the set of vertices not yet processed
-        int u, min = INT_MAX;
-        for (int v = 0; v < n; v++)
-            if (!visited[v] && dist[v] <= min)
-                min = dist[v], u = v;
-
-        // Mark the picked vertex as processed
-        visited[u] = 1;
-
-        // Update dist[] value of the adjacent vertices of the picked vertex
-        for (int v = 0; v < n; v++)
-            if (!visited[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
-                dist[v] = dist[u] + graph[u][v];
+    for (int v = 0; v < n; v++) {
+        if (visited[v] == 0 && distances[v] <= min) {
+            min = distances[v];
+            minIndex = v;
+        }
     }
 
-    // Print the constructed distance array
-    for (int i = 0; i < n; i++)
-        printf("%d ", dist[i]);
+    return minIndex;
+}
+
+void Dijkstra(int adjMatrix[][MAX_NODES], int nodes, int source) {
+    int distances[nodes];
+    int visited[nodes];
+
+    for (int i = 0; i < nodes; i++) {
+        distances[i] = INFINITY;
+        visited[i] = 0;
+    }
+
+    distances[source] = 0;
+
+    for (int i = 0; i < nodes - 1; i++) {
+        int k = minDistance(distances, visited, nodes);
+        visited[k] = 1;
+        
+        for (int j = 0; j < nodes; j++) {
+            if (!visited[j] && adjMatrix[k][j] && distances[k] != INFINITY &&
+                distances[k] + adjMatrix[k][j] < distances[j]) {
+                distances[j] = distances[k] + adjMatrix[k][j];
+            }
+        }
+    }
+
+    displayDistances(distances, nodes);
 }
 
 int main() {
-    int n, src;
-    scanf("%d %d", &n, &src);
+    int nodes, source;
+    scanf("%d %d", &nodes, &source);
 
-    int graph[MAX_NODES][MAX_NODES];
+    if (nodes < 1 || nodes > MAX_NODES || source < 0 || source >= nodes) {
+        printf("Invalid input.\n");
+        return 1;
+    }
 
-    // Input adjacency matrix
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            scanf("%d", &graph[i][j]);
+    int adjMatrix[nodes][MAX_NODES];
+    for (int i = 0; i < nodes; i++) {
+        for (int j = 0; j < nodes; j++) {
+            scanf("%d", &adjMatrix[i][j]);
+        }
+    }
 
-    dijkstra(graph, n, src);
+    Dijkstra(adjMatrix, nodes, source);
 
     return 0;
 }

@@ -1,96 +1,102 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 #define MAX_VERTICES 1000
 
-int graph[MAX_VERTICES][MAX_VERTICES];
-int visited[MAX_VERTICES];
+typedef struct Graph {
+    int visited[MAX_VERTICES];
+    int n, m;
+    int *graph[MAX_VERTICES];
+    int size[MAX_VERTICES];
+} Graph;
 
-// Create a graph with the given vertices and edges
-void create_graph(int vertices, int edges) {
-    int i, u, v, j;
-
-    // Initialize the graph as an empty graph
-    for (i = 0; i < vertices; i++) {
-        for (j = 0; j < vertices; j++) {
-            graph[i][j] = 0;
-        }
-    }
-
-    // Read edges and add them to the graph
-    for (i = 0; i < edges; i++) {
-        scanf("%d %d", &u, &v);
-        graph[u][v] = 1;
-        graph[v][u] = 1; // Assuming undirected graph
-    }
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
-// Perform BFS traversal
-void BFS(int start) {
-    int queue[MAX_VERTICES], front = 0, rear = -1;
+void addEdge(Graph* g, int v1, int v2) {
+    g->graph[v1] = realloc(g->graph[v1], sizeof(int) * (g->size[v1] + 1));
+    if (g->graph[v1] == NULL) {
+        fprintf(stderr, "Failed to allocate memory\n");
+        exit(EXIT_FAILURE);
+    }
+    g->graph[v1][g->size[v1]++] = v2;
+}
 
-    visited[start] = 1;
-    queue[++rear] = start;
-
-    while (front <= rear) {
-        int vertex = queue[front++];
-
-        printf("%d ", vertex);
-
-        // Visit unvisited neighbors of the current vertex
-        for (int i = 0; i < MAX_VERTICES; i++) {
-            if (graph[vertex][i] &&!visited[i]) {
-                visited[i] = 1;
-                queue[++rear] = i;
+void sortIntArray(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
             }
         }
     }
 }
 
-// Perform DFS traversal using recursion
-void DFS_recursive(int vertex) {
-    visited[vertex] = 1;
-    printf("%d ", vertex);
+void bfs(Graph* g, int start) {
+    int queue[MAX_VERTICES];
+    int front = 0, rear = 0;
 
-    // Visit unvisited neighbors of the current vertex
-    for (int i = 0; i < MAX_VERTICES; i++) {
-        if (graph[vertex][i] &&!visited[i]) {
-            DFS_recursive(i);
+    queue[rear++] = start;
+    g->visited[start] = 1;
+
+    while (front < rear) {
+        int current = queue[front++];
+
+        printf("%d ", current);
+
+        sortIntArray(g->graph[current], g->size[current]);
+
+        for (int i = 0; i < g->size[current]; i++) {
+            int next = g->graph[current][i];
+            if (!g->visited[next]) {
+                queue[rear++] = next;
+                g->visited[next] = 1;
+            }
+        }
+    }
+
+    printf("\n");
+}
+
+void dfsUtil(Graph* g, int start) {
+    g->visited[start] = 1;
+    printf("%d ", start);
+
+    for (int i = 0; i < g->size[start]; i++) {
+        int next = g->graph[start][i];
+        if (!g->visited[next]) {
+            dfsUtil(g, next);
         }
     }
 }
 
-// Perform DFS traversal
-void DFS(int start) {
-    int i;
-
-    // Reset the visited array
-    for (i = 0; i < MAX_VERTICES; i++) {
-        visited[i] = 0;
-    }
-
-    // Perform DFS traversal starting from the initial vertex
-    DFS_recursive(start);
+void dfs(Graph* g, int start) {
+    memset(g->visited, 0, sizeof(g->visited));
+    dfsUtil(g, start);
+    printf("\n");
 }
 
 int main() {
-    int vertices, edges, start;
+    Graph g = {0};
 
-    // Read the number of vertices and edges
-    scanf("%d %d", &vertices, &edges);
+    scanf("%d %d", &g.n, &g.m);
 
-    // Create the graph
-    create_graph(vertices, edges);
+    for (int i = 0; i < g.m; i++) {
+        int v1, v2;
+        scanf("%d %d", &v1, &v2);
+        addEdge(&g, v1, v2);
+    }
 
-    // Read the initial vertex
+    int start;
     scanf("%d", &start);
 
-    // Perform BFS and DFS traversals
-    BFS(start);
-    printf("\n");
-
-    DFS(start);
-    printf("\n");
+    bfs(&g, start);
+    dfs(&g, start);
 
     return 0;
 }
